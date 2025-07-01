@@ -1,23 +1,61 @@
 import time
 import math
-from operator import truediv
+from dynamixel_sdk import *
 
-from dynamixel_sdk import *  # Uses Dynamixel SDK library
 
-# Control table addresses
+
+
+BAUDRATE = 57600
+PROTOCAL_VERSION = 2.0
+
+MOTOR11 = 11
+MOTOR12 = 12
+MOTOR13 = 13
+MOTOR14 = 14 
+
+
+#motor 1
+TORQUE_ENABLE = 1
+OPERMATING_MODEPOSITION = 3
+M11_Min_POS = 0
+M11_MAX_POS = 4095
+M11_Center = 16
+
+#motor 2
+TORQUE_ENABLE = 1
+OPERMATING_MODEPOSITION = 3
+M12_Min_POS = 0
+M12_MAX_POS = 4095
+M12_Center = 376
+
+
+#motor 1
+TORQUE_ENABLE = 1
+OPERMATING_MODEPOSITION = 3
+M13_Min_POS = 0
+M13_MAX_POS = 4095
+M13_Center = 12
+
+#motor 4
+TORQUE_ENABLE = 1
+OPERMATING_MODEPOSITION = 3
+M14_Min_POS = 0
+M14_MAX_POS = 4095
+M14_CENTERED = 450
+
+
 ADDR_TORQUE_ENABLE     = 64
 ADDR_OPERATING_MODE    = 11
 ADDR_GOAL_POSITION     = 116
 ADDR_PRESENT_POSITION  = 132
 
-CENTER_POSITION = 450    # Mid-point (in 0–4095 range for 12-bit position)
+CENTER_POSITION = 4113  # Mid-point (in 0–4095 range for 12-bit position)
 OPERATING_MODE_POSITION = 3
 
 # Protocol version
 PROTOCOL_VERSION = 2.0
 
 # Motor details (change to match your setup)
-DXL_ID = 14  # Dynamixel ID
 BAUDRATE = 57600
 PORT_NAME = 'COM3'
 DURATION = 5
@@ -36,12 +74,41 @@ if not portHandler.openPort():
 if not portHandler.setBaudRate(BAUDRATE):
     raise IOError("Failed to set baudrate")
 
+
+
+
+# motor 12
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 0)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_OPERATING_MODE, OPERATING_MODE_POSITION)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
+
+# motor 12
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 0)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_OPERATING_MODE, OPERATING_MODE_POSITION)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
+
+
+# motor 12
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 0)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_OPERATING_MODE, OPERATING_MODE_POSITION)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
+
+
+# motor 12
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 0)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_OPERATING_MODE, OPERATING_MODE_POSITION)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
+
+# motor 12
 packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 0)
 packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_OPERATING_MODE, OPERATING_MODE_POSITION)
 packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
 
 
 while True:
-    packetHandler.write4ByteTxRx(portHandler, DXL_ID, ADDR_GOAL_POSITION, CENTER_POSITION)
-    time.sleep(0.5)
-    print("moving")
+    packetHandler.write4ByteTxOnly(portHandler, MOTOR11, ADDR_GOAL_POSITION, M11_Center + 200)
+
+
+
+
+
