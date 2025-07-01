@@ -1,1 +1,46 @@
-hel;;lop
+import time
+import math
+from operator import truediv
+
+from dynamixel_sdk import *  # Uses Dynamixel SDK library
+
+# Control table addresses
+ADDR_TORQUE_ENABLE     = 64
+ADDR_OPERATING_MODE    = 11
+ADDR_GOAL_POSITION     = 116
+ADDR_PRESENT_POSITION  = 132
+
+CENTER_POSITION = 4113  # Mid-point (in 0–4095 range for 12-bit position)
+OPERATING_MODE_POSITION = 3
+
+# Protocol version
+PROTOCOL_VERSION = 2.0
+
+# Motor details (change to match your setup)
+DXL_ID = 11  # Dynamixel ID
+BAUDRATE = 57600
+PORT_NAME = 'COM3'
+DURATION = 5
+
+
+
+# Initialize port and packet handlers
+portHandler = PortHandler(PORT_NAME)
+packetHandler = PacketHandler(PROTOCOL_VERSION)
+
+# Open port
+if not portHandler.openPort():
+    raise IOError("Failed to open port")
+
+# Set baudrate
+if not portHandler.setBaudRate(BAUDRATE):
+    raise IOError("Failed to set baudrate")
+
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 0)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_OPERATING_MODE, OPERATING_MODE_POSITION)
+packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
+
+
+while True:
+    packetHandler.write4ByteTxOnly(portHandler, DXL_ID, ADDR_GOAL_POSITION, CENTER_POSITION - 300)
+
