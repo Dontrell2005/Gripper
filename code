@@ -10,14 +10,14 @@ ADDR_OPERATING_MODE    = 11
 ADDR_GOAL_POSITION     = 116
 ADDR_PRESENT_POSITION  = 132
 
-CENTER_POSITION = 4113  # Mid-point (in 0–4095 range for 12-bit position)
+CENTER_POSITION = 450    # Mid-point (in 0–4095 range for 12-bit position)
 OPERATING_MODE_POSITION = 3
 
 # Protocol version
 PROTOCOL_VERSION = 2.0
 
 # Motor details (change to match your setup)
-DXL_ID = 11  # Dynamixel ID
+DXL_ID = 14  # Dynamixel ID
 BAUDRATE = 57600
 PORT_NAME = 'COM3'
 DURATION = 5
@@ -42,5 +42,6 @@ packetHandler.write1ByteTxRx(portHandler, DXL_ID, ADDR_TORQUE_ENABLE, 1)
 
 
 while True:
-    packetHandler.write4ByteTxOnly(portHandler, DXL_ID, ADDR_GOAL_POSITION, CENTER_POSITION - 300)
-
+    packetHandler.write4ByteTxRx(portHandler, DXL_ID, ADDR_GOAL_POSITION, CENTER_POSITION)
+    time.sleep(0.5)
+    print("moving")
